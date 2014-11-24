@@ -6,7 +6,7 @@
 <ol>
 {{#each episode in episodes}}
   <li>
-    {{#link-to 'podcast.episode' episode}}{{episode.title}}{{/link-to}} <audio controls {{bind-attr src=episode.mediaUrl}}></audio>
+    {{#link-to 'episode' episode}}{{episode.title}}{{/link-to}} <audio controls {{bind-attr src=episode.mediaUrl}}></audio>
   </li>
 {{/each}}
 </ol>
