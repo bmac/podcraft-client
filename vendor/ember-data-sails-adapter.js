@@ -8,7 +8,7 @@ var RSVP = Ember.RSVP;
 var get = Ember.get;
 
 DS.SailsRESTAdapter = DS.RESTAdapter.extend({
-  defaultSerializer: '-default',
+  defaultSerializer: 'json',
   ajaxError: function(jqXHR) {
     var error = this._super(jqXHR);
     var data = Ember.$.parseJSON(jqXHR.responseText);
@@ -82,6 +82,7 @@ DS.SailsSocketAdapter = DS.SailsAdapter = DS.SailsRESTAdapter.extend({
       this.checkCSRF(data);
     return new RSVP.Promise(function(resolve, reject) {
       io.socket[method](url, data, function (data) {
+        console.log(url, data);
         if (isErrorObject(data)) {
           adapter._log('error:', data);
           if (data.errors) {
