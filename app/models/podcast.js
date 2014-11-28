@@ -5,7 +5,7 @@ export default DS.Model.extend({
   feedUrl: attr('string'),
   title: attr('string'),
   link: attr('string'),
-  language: attr('string'),
+  language: attr('string', {defaultValue: 'language'}),
   copyright: attr('string'),
   subtitle: attr('string'),
   author: attr('string'),

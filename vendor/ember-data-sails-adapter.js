@@ -38,7 +38,10 @@ DS.SailsRESTAdapter = DS.RESTAdapter.extend({
    */
   formatError: function(error) {
     return Object.keys(error.invalidAttributes).reduce(function(memo, property) {
-      memo[property] = error.invalidAttributes[property].map(function(err) {
+      // Some errors types like `unique` seem to add extra quotes
+      // around the property name.
+      var propertyNoQuotes = property.replace(/^"|"$/g, '');
+      memo[propertyNoQuotes] = error.invalidAttributes[property].map(function(err) {
         return err.message;
       });
       return memo;
@@ -85,9 +88,8 @@ DS.SailsSocketAdapter = DS.SailsAdapter = DS.SailsRESTAdapter.extend({
   },
 
   isErrorObject: function(data) {
-    return !!(data.error && data.model && data.summary && data.status);
+    return (data.error && data.status === 400);
   },
-
 
   ajax: function(url, method, data) {
     return this.socket(url, method, data);
@@ -103,6 +105,7 @@ DS.SailsSocketAdapter = DS.SailsAdapter = DS.SailsRESTAdapter.extend({
       this.checkCSRF(data);
     return new RSVP.Promise(function(resolve, reject) {
       io.socket[method](url, data, function (data) {
+        console.log(data, isErrorObject(data));
         if (isErrorObject(data)) {
           adapter._log('error:', data);
           if (data.error) {
