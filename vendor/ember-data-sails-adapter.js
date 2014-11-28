@@ -48,6 +48,26 @@ DS.SailsRESTAdapter = DS.RESTAdapter.extend({
   pathForType: function(type) {
     var camelized = Ember.String.camelize(type);
     return Ember.String.singularize(camelized);
+  },
+
+ createRecord: function(store, type, record) {
+    var data = {};
+    var serializer = store.serializerFor(type.typeKey);
+
+    serializer.serializeIntoHash(data, type, record, { includeId: true });
+
+    return this.ajax(this.buildURL(type.typeKey, null, record), "POST", data);
+  },
+
+  updateRecord: function(store, type, record) {
+    var data = {};
+    var serializer = store.serializerFor(type.typeKey);
+
+    serializer.serializeIntoHash(data, type, record);
+
+    var id = get(record, 'id');
+
+    return this.ajax(this.buildURL(type.typeKey, id, record), "PUT", data);
   }
 });
 
@@ -78,14 +98,14 @@ DS.SailsSocketAdapter = DS.SailsAdapter = DS.SailsRESTAdapter.extend({
     method = method.toLowerCase();
     var adapter = this;
     adapter._log(method, url, data);
+
     if(method !== 'get')
       this.checkCSRF(data);
     return new RSVP.Promise(function(resolve, reject) {
       io.socket[method](url, data, function (data) {
-        console.log(url, data);
         if (isErrorObject(data)) {
           adapter._log('error:', data);
-          if (data.errors) {
+          if (data.error) {
             reject(new DS.InvalidError(adapter.formatError(data)));
           } else {
             reject(data);
@@ -145,7 +165,6 @@ DS.SailsSocketAdapter = DS.SailsAdapter = DS.SailsRESTAdapter.extend({
     var eventName = Ember.String.camelize(model).toLowerCase();
     io.socket.on(eventName, function (message) {
       // Left here to help further debugging.
-      //console.log("Got message on Socket : " + JSON.stringify(message));
       if (message.verb === 'created') {
         // Run later to prevent creating duplicate records when calling store.createRecord
         Ember.run.later(null, pushMessage, message, 50);

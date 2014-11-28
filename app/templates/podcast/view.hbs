@@ -1,0 +1,12 @@
+<h1>
+  {{title}}
+</h1>
+<h2>{{subtitle}}</h2>
+<h2>{{author}}</h2>
+<ol>
+{{#each episode in episodes}}
+  <li>
+    {{#link-to 'episode' episode}}{{episode.title}}{{/link-to}} <audio controls {{bind-attr src=episode.mediaUrl}}></audio>
+  </li>
+{{/each}}
+</ol>

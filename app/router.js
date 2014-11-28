@@ -6,7 +6,12 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('podcast', { path: '/podcast/:podcast_id' });
+  this.route('podcast', function() {
+      this.route('create');
+      this.route('view', { path: ':podcast_id' });
+      this.route('edit', { path: ':podcast_id/edit' });
+  });
+
   this.route('episode', { path: '/episode/:episode_id' });
 });
 

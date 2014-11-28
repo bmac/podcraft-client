@@ -1,0 +1,88 @@
+<h1>Create Podcast</h1>
+
+<label>Feed Url:
+  {{input value=feedUrl}}
+</label>
+{{#each error in errors.feedUrl}}
+  <div class="error">
+    {{error.message}}
+  </div>
+{{/each}}
+
+<label>Title:
+  {{input value=title}}
+</label>
+{{#each error in errors.title}}
+  <div class="error">
+    {{error.message}}
+  </div>
+{{/each}}
+
+<label>Link:
+  {{input value=link}}
+</label>
+{{#each error in errors.link}}
+  <div class="error">
+    {{error.message}}
+  </div>
+{{/each}}
+
+<label>Copyright:
+  {{input value=copyright}}
+</label>
+{{#each error in errors.copyright}}
+  <div class="error">
+    {{error.message}}
+  </div>
+{{/each}}
+
+<label>Subtitle:
+  {{input value=subtitle}}
+</label>
+{{#each error in errors.subtitle}}
+  <div class="error">
+    {{error.message}}
+  </div>
+{{/each}}
+
+<label>Author:
+  {{input value=author}}
+</label>
+{{#each error in errors.author}}
+  <div class="error">
+    {{error.message}}
+  </div>
+{{/each}}
+
+<label>Summary:
+  {{textarea value=summary}}
+</label>
+{{#each error in errors.summary}}
+  <div class="error">
+    {{error.message}}
+  </div>
+{{/each}}
+
+<label>Description:
+  {{textarea value=description}}
+</label>
+{{#each error in errors.description}}
+  <div class="error">
+    {{error.message}}
+  </div>
+{{/each}}
+
+<label>Image:
+  {{input value=image}}
+</label>
+{{#each error in errors.image}}
+  <div class="error">
+    {{error.message}}
+  </div>
+{{/each}}
+
+
+<button {{action 'saveModel' model}}>Save</button>
+
+
+
