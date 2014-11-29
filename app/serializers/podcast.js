@@ -2,7 +2,10 @@ import DS from 'ember-data';
 
 export default DS.JSONSerializer.extend(DS.EmbeddedRecordsMixin, {
   attrs: {
-    episodes: { embedded: 'always' }
+    episodes: {
+      serialize: false,
+      deserialize: 'records'
+    }
   },
   normalize: function(type, data) {
     if (typeof data === 'number') {

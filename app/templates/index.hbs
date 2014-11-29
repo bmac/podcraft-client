@@ -1,4 +1,6 @@
 {{outlet}}
 {{#each podcast in model}}
-  {{#link-to 'podcast.view' podcast}}{{podcast.title}}{{/link-to}}
+  <div>
+    {{#link-to 'podcast.view' podcast}}{{podcast.title}}{{/link-to}}
+  </div>
 {{/each}}

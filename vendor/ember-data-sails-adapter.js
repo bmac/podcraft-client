@@ -101,11 +101,12 @@ DS.SailsSocketAdapter = DS.SailsAdapter = DS.SailsRESTAdapter.extend({
     var adapter = this;
     adapter._log(method, url, data);
 
-    if(method !== 'get')
+    if(method !== 'get') {
       this.checkCSRF(data);
+    }
+
     return new RSVP.Promise(function(resolve, reject) {
       io.socket[method](url, data, function (data) {
-        console.log(data, isErrorObject(data));
         if (isErrorObject(data)) {
           adapter._log('error:', data);
           if (data.error) {
