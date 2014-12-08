@@ -1,6 +1,6 @@
 # Podcraft
 
-Test app for the sails ember data adapter.
+Test app for the ember data sails adapter.
 
 ## Prerequisites
 
